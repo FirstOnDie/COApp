@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  postgres-db:
+    image: postgres:15
+    container_name: postgres_database
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - postgres_network
+    ports:
+      - "${POSTGRES_PORT}:5432"
+
+networks:
+  postgres_network:
+    name: professional_postgres_network
+
+volumes:
+  postgres_data:
+    name: professional_postgres_data
